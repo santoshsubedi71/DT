@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>NAMCHE オンライン ショップ contact form</title>
+    <link rel="stylesheet" href="{{constant('namche\\Bootstrap::APP_URL')}}assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{constant('namche\\Bootstrap::APP_URL')}}assets/fonts/bootstrap-icons.css">
+    <link rel="stylesheet" href="{{constant('namche\\Bootstrap::APP_URL')}}assets/sass/main.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </head>
+  <body>
+    <div class="container mt-5">
+      <div class="row">
+        <div class="col-md-6 offset-md-3">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title text-center">Contact US</h5>
+              <hr>
+              <form action="contact.php" method="POST">
+                <div class="mb-3">
+                  <input type="text" class="form-control" id="name" placeholder="Type your name" name="name">
+                </div>
+                <div class="mb-3">
+                  <input type="email" class="form-control" id="FormControl" placeholder="Name@example.com" name="email">
+                </div>
+                <div class="mb-3">
+                  <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject here">
+                </div>
+                <div class="mb-3">
+                  <textarea class="form-control" id="Textarea" name="comment" rows="3" placeholder="Write your comment here"></textarea>
+                </div>
+                <input type="submit" name="submit" class="btn btn-outline-primary" value="Send Mail">
+                <span class="mx-4 text-danger"> {{ err }} </span>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,49 @@
+
+<!doctype html>
+<html lang="jp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>NAMCHE オンライン ショップ</title>
+    <link rel="icon" href="{{constant('namche\\Bootstrap::APP_URL')}}assets/images/favicon.png">
+    <link rel="stylesheet" href="{{constant('namche\\Bootstrap::APP_URL')}}assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{constant('namche\\Bootstrap::APP_URL')}}assets/fonts/bootstrap-icons.css">
+    <link rel="stylesheet" href="{{constant('namche\\Bootstrap::APP_URL')}}assets/sass/main.css">
+</head>
+
+<!--Header section-->
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand " href="#" >
+                <img src="{{constant('namche\\Bootstrap::APP_URL')}}assets/images/ecommerce-logo-png-11.png" class="text-center" alt="">
+            </a>
+           
+        
+            
+        </div>
+    </nav>
+</header>
+<body>
+    <section class="position-relative">
+         <div class="card my-5 mx-auto p-2 text-center" style="width: 400px;">
+            <div class="card-body mx-auto ">
+            <h5 class="card-title mb-5 fw-bolder">ADMIN</h5>
+            <form action="" method="post" class="text-warning-emphasis ">
+                <label for="username" class="fw-medium">ADMIN NAME:</label>
+                <input type="text" id="username" name="username" class="border-success my-2"><br>
+                <p class="text-end my-2 text-danger">{{ err_msg }}</p> 
+                <label for="password">PASSWORD:</label>
+                <input type="password" id="password" name="password" class="border-success my-2"><br>
+                <p class="text-end my-2 text-danger">{{ err_msg1 }}</p>
+                <p class="text-end my-2 text-danger">{{ err_msg2 }}</p>
+                <input class="btn btn-outline-success" type="submit" name="submit" value="LOGIN"> <br><br> 
+            </form>    
+        </div>
+    </div>
+</section>
+
+</body>
+</html>

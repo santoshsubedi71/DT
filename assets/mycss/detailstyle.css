@@ -1,0 +1,36 @@
+body {
+    font-family: "Roboto", sans-serif;
+    background: #fff !important;
+    margin: 0;
+}
+
+
+
+.detail-product.card-body img {
+  filter: grayscale(100%);
+  transition: filter 0.3s ease;
+}
+
+/* Remove the grayscale filter on hover */
+.detail-product.card-body:hover img {
+  filter: grayscale(0%);
+}
+
+/* Default style */
+@media (min-width: 992px) {
+  .container {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+/* Smaller screens, revert to original layout */
+@media (max-width: 991px) {
+  .container {
+    display: block;
+  }
+}
+
+
+
+

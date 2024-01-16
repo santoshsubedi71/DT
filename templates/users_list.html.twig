@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="jp">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Namche online</title>
+    <link rel="icon" href="{{constant('namche\\Bootstrap::APP_URL')}}assets/images/fav.png">
+    <link rel="stylesheet" href="{{constant('namche\\Bootstrap::APP_URL')}}assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{constant('namche\\Bootstrap::APP_URL')}}assets/fonts/bootstrap-icons.css">
+    <link rel="stylesheet" href="{{constant('namche\\Bootstrap::APP_URL')}}assets/sass/main.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css">
+  </head>
+  <body>
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+          <a class="navbar-brand" href="#">
+            <img src="{{constant('namche\\Bootstrap::APP_URL')}}assets/images/ecommerce-logo-png-11.png" class="text-center" alt="">
+          </a>
+        </div>
+      </nav>
+    </header>
+    <section class="my-5">
+      <div class="row mx-1">
+        <div class="col-2">
+          <div class="list-group" id="list-tab" role="tablist">
+            <a class="list-group-item list-group-item-action " id="list-home-list" href="crud.php" role="tab" aria-controls="list-home">Products</a>
+            <a class="list-group-item list-group-item-action active" id="list-profile-link" href="users_list.php" role="tab" aria-controls="list-profile">Users</a>
+            <a class="list-group-item list-group-item-action" id="list-messages-list" href="sales.php" role="tab" aria-controls="list-messages">Sales</a>
+            <a class="list-group-item list-group-item-action " id="list-messages-list" href="orders.php" role="tab" aria-controls="list-messages">Orders</a>
+            <a class="list-group-item list-group-item-action" id="list-settings-list" href="#list-settings" role="tab" aria-controls="list-settings">Customer Support</a>
+          </div>
+        </div>
+        <div class="col-10 ">
+          <!-- Tab Content -->
+          <div class="tab-content" id="nav-tabContent">
+            <!-- Products Tab -->
+            <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">
+              <div class="col-8 w-100">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <h4 class="text-primary">All Users </h4>
+                  </div>
+                  <div>
+                    <a href="#" class="btn btn-success m-1 float-right" id="exportBtn">
+                      <i class="fa fa-table fa-lg"></i>Import by CSV </a> {# for file upload  #} <div class="modal" id="myModal" tabindex="-1" role="dialog">
+                      <div class="modal-dialog d-flex align-items-center justify-content-center" role="document">
+                        <div class="modal-content">
+                          <div class="modal-body">
+                            <form method="post" action="users_list.php" enctype="multipart/form-data">
+                              <input type="file" name="csv_file" id="fileInput">
+                              <br>
+                              <br>
+                              <button class="btn btn-secondary" onclick="closeModal()">Close</button>
+                              <button class="btn btn-warning " type="submit">Upload</button>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="table-responsive">
+                      <table class="table table-striped table-bordered text-center" id="showUser">
+                        <tbody>
+                          <!-- Loop through items --> {% if usersdata %} {% for users in usersdata %} <tr class="align-middle">
+                            <td>{{ users.id }}</td>
+                            <td>{{users.username}}</td>
+                            <td>{{ users.email }}</td>
+                            <td>{{ users.tel1}}{{ users.tel2}}{{ users.tel3}}</td>
+                            <td>{{ users.address }}</td>
+                            <td>{{ users.delete_flg!=1 ? 'Activated' : 'Deactivated' }}</td>
+                            <td>
+                              <input type="hidden" name="users_id" value="{{ users.id }}">
+{% if users.delete_flg!=1 %}
+                              <button class="btn btn-danger action-btn" data-users_email="{{ users.email }}" data-status="1">Deactive</button>
+{% else %}
+                              <button class="btn btn-primary action-btn" data-users_email="{{ users.email }}" data-status="0">Activate</button>
+{% endif %}
+                            </td>
+                          </tr> {% endfor %} {% else %} <tr>
+                            <td colspan="6">No items found.</td>
+                          </tr> {% endif %}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+    </section>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      $(document).ready(function() {
+        // Function to handle clicking the "Delete" button
+        $("button.action-btn").click(function() {
+          var email = $(this).data("users_email");
+          var status = $(this).data("status"); // 0 = deactivate; 1 = activate
+          console.log(status);
+          if(!confirm('Are you sure want to '+(!status?'activate':'deactivate')+' this account? '+email))return;
+          window.location.href = "{{ constant('namche\\Bootstrap::ENTRY_URL') }}admin/users_list.php?action=toggleDeactivate&email=" + email + "&status=" + status ;
+        });
+      });
+    </script>
+    <script>
+      document.getElementById('exportBtn').addEventListener('click', function() {
+        $('#myModal').modal('show');
+      });
+
+      function closeModal() {
+        $('#myModal').modal('hide');
+      }
+    </script>
+  </body>
+</html>
+</body>
+</html>

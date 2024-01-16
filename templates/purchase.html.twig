@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="jp">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>NAMCHE オンライン ショップ</title>
+    <link rel="icon" href="{{constant('namche\\Bootstrap::APP_URL')}}assets/images/favicon.png">
+    <link rel="stylesheet" href="{{constant('namche\\Bootstrap::APP_URL')}}assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{constant('namche\\Bootstrap::APP_URL')}}assets/fonts/bootstrap-icons.css">
+    <link rel="stylesheet" href="{{constant('namche\\Bootstrap::APP_URL')}}assets/sass/main.css">
+  </head>
+  <body>
+    <!--Header section-->
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+          <a class="navbar-brand " href="#">
+            <img src="{{constant('namche\\Bootstrap::APP_URL')}}assets/images/ecommerce-logo-png-11.png" class="text-center" alt="">
+          </a>
+        </div>
+      </nav>
+    </header>
+    <section>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12 text-center border rounded bg-light my-3">
+            <h1>Confirm Purchase</h1>
+          </div>
+          <div class="col-lg-5">
+            <form action="purchase.php" method="post" id="purchaseForm">
+              <input type="hidden" name="submitBtn" value="1">
+              <input type="hidden" name="shipping_amount" value="550">
+              <label for="name" class="mb-3 row">Username:</label>
+              <input type="text" name="username" value="{{userdata.username}}" class="mb-3 row" size="50" readonly>
+              <label for="name" class="mb-3 row">email:</label>
+              <input type="text" name="email" value="{{userdata.email}}" class="mb-3 row" size="50" readonly>
+             <label for="phone" class="mb-3 row">Phone Number:</label>
+              <input type="text" name="phone" value="{{userdata.tel1}}{{userdata.tel2}}{{userdata.tel3}}" class="mb-3 row" size="50" readonly>
+              <label for="address" class="mb-3 row">Postal Code:</label>
+              <input type="text" name="zip1" value="{{userdata.zip1}}" class="mb-3" size="15" >
+              <input type="text" name="zip2" value="{{userdata.zip2}}" class="mb-3 mx-2" size="15" >
+              <label for="address" class="mb-3 row">Address:</label>
+              <input type="text" name="address" value="{{userdata.address}}" class="mb-3 row" size="50" >
+              
+            </form>
+          </div>
+          <div class="col-lg-6">
+            <div class="border bg-light rounded p-4 ">
+              <h5>Item Qty :{{sumNum}}</h5>
+              <h5 class="my-3">Sub Total :&yen;{{sumPrice|number_format(0, '.', ',')}} </h5>
+              <h5 class="my-2">Shipping :&yen;550 <h5>
+                  <hr>
+                  <h1 class="my-5">Total :&yen;{{sumPrice + 550}}
+                    <h1>
+                      <button class="btn btn-success btn-block" id="checkAnimation" onclick='alert("Order placed Successfuly"); document.getElementById("purchaseForm").submit();'>✓ Confirm purchase</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+      // Function to show the check animation and success message
+      function showCheckAnimation() {}
+    </script>
+  </body>
+</html>

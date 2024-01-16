@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Detail Page</title>
+    <link rel="stylesheet" href="{{constant('namche\\Bootstrap::APP_URL')}}assets/mycss/user_detail.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 offset-md-3">
+          <div class="card">
+            <img src="../assets/images/user.png" alt="Avatar" class=" avatar">
+            <div class="card-body">
+              <h5 class="card-title text-center">User Details</h5>
+              <hr>
+              <div class="mb-3">
+                <label for="userName" class="form-label">Username:</label>
+                <p id="">{{userdata.username}}</p>
+                <label for="email" class="form-label">Email:</label>
+                <p id="">{{userdata.email}}</p>
+                <label for="phone" class="form-label">Phone:</label>
+                <p id="">{{userdata.tel1}}{{userdata.tel2}}{{userdata.tel3}}</p>
+                <label for="postal">Postal code </label>
+                <p id="">{{userdata.zip1}}-{{userdata.zip2}}</p>
+                <label for="" class="form-label">Address:</label>
+                <p id="">{{userdata.address}}</p>
+                <br>
+                <button type="button" class="btn btn-primary updatebtn " data-bs-toggle="modal" data-bs-target="#staticBackdrop" rel="{{ userdata.id }}">Update Profile</button>
+                <button class="btn btn-danger" type="" onclick="if(confirm('Are you sure want to disable your account?'))window.location.href='./login.php?logout=1&deactive=1'">Deactive</button>
+                <p class ="my-1" id="">Did you forget your password? <a href="changePassword.php">Change password</a>
+                </p>
+              </div>
+             
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal for update user detail-->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <form action="profile.php" method="POST">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="mb-3 row">
+                <label for="username" class="col-sm-4 col-form-label text-end">ユーザー名:</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" value="{{userdata.username}}" id="username" name="username">
+                  <p> {% if errArr.username | length > 0 %} <br>
+                    <span class="red">{{ errArr.username}}</span>{% endif %}
+                  </p>
+                </div>
+              </div>
+              <div class="mb-3 row">
+                <label for="email" class="col-sm-4 col-form-label text-end">メールアドレス:</label>
+                <div class="col-sm-8">
+                  <input type="email" class="form-control" value="{{userdata.email}}" readonly id="email" name="email">
+                  <p> {% if errArr.email | length > 0 %} <br>
+                    <span class="red">{{errArr.email}}</span>{% endif %}
+                  </p>
+                </div>
+              </div>
+              <div class="mb-3 row">
+                <label for="phone" class="col-sm-4 col-form-label text-end">電話番号</label>
+                <div class="col-sm-2">
+                  <input type="text" class="form-control" id="tel1" name="tel1" value="{{userdata.tel1}}" maxlength="3">
+                </div>
+                <div class="col-sm-3">
+                  <input type="text" class="form-control" id="tel2" name="tel2" value="{{userdata.tel2}}" maxlength="4">
+                </div>
+                <div class="col-sm-3">
+                  <input type="text" class="form-control" id="tel3" name="tel3" value="{{userdata.tel3}}" maxlength="4">
+                </div> {% if errArr.tel1 | length > 0 %} <br>
+                <span class="red">{{errArr.tel1}}</span>{% endif %} {% if errArr.tel2 | length > 0 %} <br>
+                <span class="red">{{errArr.tel2}}</span>{% endif %} {% if errArr.tel3 | length > 0 %} <br>
+                <span class="red">{{errArr.tel3}}</span>{% endif %}
+              </div>
+              <div class="mb-3 row">
+                <label class="col-sm-4 col-form-label text-end">郵便番号:</label>
+                <div class="col-sm-3">
+                  <input type="text" class="form-control" id="uzip1" value="{{userdata.zip1}}" name="zip1" maxlength="3">
+                </div>
+                <div class="col-sm-3">
+                  <input type="text" class="form-control" id="uzip2" value="{{userdata.zip2}}" name="zip2" maxlength="4">
+                </div>
+                <div class="col-sm-2">
+                  <button class="btn btn-outline-secondary" type="button" id="usearchPostalCode">検索</button>
+                </div>
+                <p> {% if errArr.zip1  | length > 0 %} <br>
+                  <span class="red">{{errArr.zip1}}</span>{% endif %} {% if errArr.zip2  | length > 0 %} <br>
+                  <span class="red">{{errArr.zip2}}</span>{% endif %}
+                </p>
+              </div>
+              <div class="mb-3 row">
+                <label for="address" class="col-sm-4 col-form-label text-end">住所:</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" value="{{userdata.address}}" id="address" name="address">
+                </div>
+                <p> {% if errArr.address | length > 0 %} <br>
+                  <span class="red">{{errArr.address}}</span>{% endif %}
+                </p>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button class="btn btn-primary" type="submit">Update</button>
+            </div>
+          </div>
+        </div>
+    </div>
+    </form>
+    </div>
+    <!-- Bootstrap JS and Popper.js (required for some Bootstrap components) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  </body>
+</html>

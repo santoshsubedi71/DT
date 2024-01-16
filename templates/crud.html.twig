@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="jp">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Namche online</title>
+    <link rel="icon" href="{{constant('namche\\Bootstrap::APP_URL')}}assets/images/fav.png">
+    <link rel="stylesheet" href="{{constant('namche\\Bootstrap::APP_URL')}}assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{constant('namche\\Bootstrap::APP_URL')}}assets/fonts/bootstrap-icons.css">
+    <link rel="stylesheet" href="{{constant('namche\\Bootstrap::APP_URL')}}assets/sass/main.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="{{constant('namche\\Bootstrap::APP_URL')}}css2/crudstyle.css">
+<style>
+.table-light.table-hover img {
+   max-width: 100px;
+   max-height: 100px;
+   width: auto;
+   height: auto;
+}
+
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+          <a class="navbar-brand" href="#">
+            <img src="{{constant('namche\\Bootstrap::APP_URL')}}assets/images/namche-logo.png" class="text-center" alt="">
+          </a>
+        </div>
+      </nav>
+    </header>
+    <section class="my-5">
+      <div class="row mx-1">
+        <div class="col-2">
+          <!-- Sidebar -->
+          <div class="list-group" id="list-tab" role="tablist">
+            <a class="list-group-item list-group-item-action active" id="list-home-list" href="crud.php" role="tab" aria-controls="list-home">Products</a>
+            <a class="list-group-item list-group-item-action " id="list-profile-link" href="users_list.php" role="tab" aria-controls="list-profile">Users</a>
+            <a class="list-group-item list-group-item-action" id="list-messages-list" href="sales.php" role="tab" aria-controls="list-messages">Sales</a>
+            <a class="list-group-item list-group-item-action " id="list-messages-list" href="orders.php" role="tab" aria-controls="list-messages">Orders</a>
+            <a class="list-group-item list-group-item-action" id="list-settings-list" href="support.php" role="tab" aria-controls="list-settings">Customer Support</a>
+          </div>
+        </div>
+        <div class="col-10">
+          <!-- Tab Content -->
+          <div class="tab-content" id="nav-tabContent">
+            <!-- Products Tab -->
+            <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">
+              <div class="col-8 w-100">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <h4 class="text-primary">All Products in the database!</h4>
+                  </div>
+                  <div>
+                    <button type="button" class="btn btn-primary float-right" data-bs-toggle="modal" data-bs-target="#addproduct">Add Items </button>
+                    <a href="#" class="btn btn-success m-1 float-right">
+                      <i class=" fa fa-table fa-lg"></i>Import csv file</a>
+                    <!-- Add Product Modal -->
+                    <div class="modal fade" id="addproduct" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Add Item Here</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <!-- Add Product Form -->
+                            <form action="crud.php" method="POST" enctype="multipart/form-data"> Item name: <input type="text" name="name">
+                              <br>
+                              <br>
+                              <label for="item">Category:</label>
+                              <select name="item" id="item">
+                              {% for cat in category %}
+                                <option value="{{cat.ctg_id}}">{{cat.category_name}}</option>
+                                {% endfor %}
+                              </select>
+                              <br>
+                              <div class=" sub_cat">
+                              <br>
+                              <label for="subcategory_id">Sub Category:</label>
+                              <select name="subcategory_id" id="subcategory_id">
+                              {% for scat in childCategory %}
+                                <option value="{{scat.ctg_id}}" rel="{{scat.parent_id}}">{{scat.category_name}}</option>
+                                {% endfor %}
+                              </select>
+                              <br>
+                              </div>
+                                    <br> Price: <input type="number" name="price">
+                                    <br>
+                                    <br> Description: <textarea name="contents" rows="4" cols="20"></textarea>
+                                    <br>
+                                    <br> Image: <input type="file" name="image">
+                                    <br>
+                                    <br>
+                                    <div class="modal-footer">
+                                <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close </button>
+                                <button type="submit" class="btn btn-success" name="addproduct">ADD Item </button>
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Update Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <form action="crud.php" method="POST" enctype="multipart/form-data">
+                        <div class="modal-body"> Item name: <input type="text" name="name" id="uName">
+                          <br>
+                          <br>
+                          <label for="item">Category:</label>
+                          <input type="hidden" name="u_item_id" id="uItem">
+                          Price: <input type="number" name="price" id="uPrice">
+                          <br>
+                              <label for="item">Category:</label>
+                              <select name="u_ctg_id" id="u_ctg_id">
+                              {% for cat in category %}
+                                <option value="{{cat.ctg_id}}">{{cat.category_name}}</option>
+                                {% endfor %}
+                              </select>
+                              <br>
+                            <div class=" sub_cat">
+                              <br>
+                              <label for="Usubcategory_id">Sub Category:</label>
+                              <select name="Usubcategory_id" id="Usubcategory_id">
+                              {% for scat in childCategory %}
+                                <option value="{{scat.ctg_id}}" rel="{{scat.parent_id}}">{{scat.category_name}}</option>
+                                {% endfor %}
+                              </select>
+                              <br>
+                              </div>
+                          <br> Description: <textarea name="contents" rows="4" id="uContent" cols="20"></textarea>
+                          <br>
+                          <br> Image: <input type="file" name="image">
+                          <br>
+                          <br>
+                          <img src="" id="uImg" width=100 border=1>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close </button>
+                          <button type="submit" name="submit" class="btn btn-warning">Update Items</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <hr>
+                <!-- Table of Products -->
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="table-responsive">
+                      <table class="table table-light table-hover" id="showUser">
+                        <thead  class="table table-light table-hover">
+                          <tr>
+                            <th>ID</th>
+                            <th>Image</th>
+                            <th>Item Name</th>
+                            <th>Item Price</th>
+                            <th>Description</th>
+                            <th>Action</th>
+                          </tr>
+                          
+                        </thead>
+                        <tbody class="text-center align-middle">
+                          <!-- Loop through items --> {% if allItems %} {% for item in allItems %} <tr class="align-middle">
+                            <td>{{ item.item_id }}</td>
+                            <td width=100 height=100 border=1>
+                                <img  class="d-inline-block"  src="{{ constant('namche\\Bootstrap::ENTRY_URL') }}images/{{ item.image }}" alt="{{ item.item_name }}">
+                            </td>
+                            <td>{{ item.item_name }}</td>
+                            <td>&yen;{{ item.price }}</td>
+                            <td>{{ item.detail }}</td>
+                            <td>
+                              <button type="button" class="btn btn-primary updateBtn" rel="{{ item.item_id }}" data-bs-toggle="modal" data-bs-target="#exampleModal"> Update </button>
+                              <input type="hidden" name="item_id" value="{{ item.item_id }}">
+                              <button class="btn btn-danger delete-btn my-1" data-item_id="{{ item.item_id }}">Delete </button>
+                            </td>
+                          </tr> {% endfor %} {% else %} <tr>
+                            <td colspan="6">No items found.</td>
+                          </tr> {% endif %}
+                        </tbody>
+                      </table>
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    <div class="pagination mt-3  d-flex justify-content-center">
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            {% if totalPages > 1 %}
+                {% for page in 1..totalPages %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ constant('namche\\Bootstrap::ENTRY_URL') }}admin/crud.php?page={{ page }}">{{ page }}</a>
+                    </li>
+                {% endfor %}
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+
+    
+    </section>
+
+    <script>
+      $(document).ready(function() {
+        // Function to handle clicking the "Delete" button
+        $(".delete-btn").click(function() {
+          var item_id = $(this).data("item_id");
+          window.location.href = "{{ constant('namche\\Bootstrap::ENTRY_URL') }}admin/crud.php?item_id=" + item_id;
+        });
+        $("button.updateBtn").click(function() {
+          var item = $(this).attr("rel");
+          $.get("./crud.php?getItemById=" + item, function(data) {
+            data = JSON.parse(data);
+            $("#uName").val(data.item_name);
+            $("#uItem").val(data.item_id);
+            $("#u_ctg_id").val(data.ctg_id);
+            $("#uContent").val(data.detail);
+            $("#uPrice").val(data.price);
+            $("#Usubcategory_id").val(data.subcategory_id);
+            $("#uImg").attr("src", "{{ constant('namche\\Bootstrap::ENTRY_URL') }}images/" + data.image);
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

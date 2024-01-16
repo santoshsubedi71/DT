@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>NAMCHE Online Shop</title>
+    <link rel="icon" href="{{constant('namche\\Bootstrap::APP_URL')}}assets/images/fav.png">
+    <link rel="stylesheet" href="{{constant('namche\\Bootstrap::APP_URL')}}assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{constant('namche\\Bootstrap::APP_URL')}}assets/fonts/bootstrap-icons.css">
+    <link rel="stylesheet" href="{{constant('namche\\Bootstrap::APP_URL')}}assets/sass/main.css">
+    <link rel="stylesheet" href="{{constant('namche\\Bootstrap::APP_URL')}}assets/mycss/cartstyle.css">
+  </head>
+  <body>
+    <!-- Header -->
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+          <a class="navbar-brand" href="list.php">
+            <img src="{{constant('namche\\Bootstrap::APP_URL')}}assets/images/namche-logo.png" alt="">
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item ">
+                <a class="nav-link   " aria-current="page" href="list.php">Home <i class="bi bi-chevron-right "></i>
+                </a>
+              </li>
+              <li class="nav-item ">
+                <a class="nav-link active" href="#">Wish list</a>
+              </li>
+            </ul>
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 action-menu">
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <i class="bi bi-heart"></i>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ constant('namche\\Bootstrap::ENTRY_URL') }}cart.php">
+                  <i class="bi bi-cart4 position-relative">
+                    <span style="font-size: 12px" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"></span>
+                  </i>
+                </a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="bi bi-person">
+                    <span></span>
+                  </i>
+                </a>
+                <ul class="dropdown-menu border-0 shadow-lg" aria-labelledby="navbarDropdown"> {% if userIsLoggedIn %} <li>
+                    <a class="dropdown-item" href="./login.php?logout=1">logout</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="#">Setting</a>
+                  </li> {% else %} <li>
+                    <a class="dropdown-item" href="./login.php">login</a>
+                  </li> {% endif %}
+                </ul>
+              </li>
+               {# this is for language #}
+              <li class="nav-item dropdown">
+                                Language
+              <div class="translate-container">
+            <div id="google_translate_element"></div>
+            <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+            <script type="text/javascript">
+                function googleTranslateElementInit() {
+                    new google.translate.TranslateElement({ pageLanguage: 'en' }, 'google_translate_element');
+                }
+            </script>
+        </div>
+    </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <section>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12 text-center border rounded bg-light my-5">
+            <h1>WISH LIST</h1>
+          </div>
+          <div class="col-lg-8">
+            <table class="table table-light table-hover">
+              <thead class="text-center">
+                <tr>
+                  <th>P.NO</th>
+                  <th>Image</th>
+                  <th>Item name</th>
+                  <th>Item Prize</th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody class="text-center align-middle"> 
+              {% for value in dataArr %} <tr>
+                  <td>{{ value.item_id }}</td>
+                   <td width=100 height=100 border=1>
+                     <img src="images/{{ value.image }}" class="h-100 d-inline-block">
+                  </td>
+                  <td>{{ value.item_name }}</td>
+                  <td>{{ value.price }}</td>
+                  <td>
+                  
+                    <button onclick="removeItem({{value.wish_id}})" class="btn-danger mx-5"> Remove </button>
+                  </td>
+                  <td>
+                    <a class="add-to-cart-btn btn btn-primary border-1px " name="cart_in" id="cart_in" onclick="addToCart({{value.item_id}})">
+                      <i class="bi bi-cart4"></i> Add to Cart </a>
+                  </td>
+                </tr> {% endfor %} </tbody>
+            </table>
+          </div>
+        </div>
+        <section>
+
+  </body>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="{{constant('namche\\Bootstrap::APP_URL')}}assets/js/bootstrap.bundle.js"></script>
+  <script>
+    function removeItem(id) {
+      $(document).ready(function() {
+        $.get('wish.php?remove_item_id=' + id, function(data) {
+          if (data) {
+            location.reload();
+          } else {
+            alert('Error');
+          }
+        });
+      });
+    }
+
+    function addToCart(item_id) {
+      $(document).ready(function() {
+        // Show the "Item added to Cart" alert
+        $("#cart-alert").fadeIn().delay(1000).fadeOut();
+        // Delay the redirection to let the user see the alert
+        $.get("cart.php?item_id=" + item_id, function(data) {
+          alert("Item has been added");
+          location.reload()
+        });
+      });
+    }
+  </script>
+</html>
